@@ -1,7 +1,8 @@
 require("dotenv").config();
 
 const express = require("express");
-const workoutRoutes = require("./routes/workouts")
+const mongoose = require("mongoose");
+const workoutRoutes = require("./routes/workouts");
 
 // Creates express app
 const app = express();
@@ -12,13 +13,19 @@ app.use((req, res, next) => {
   next();
 });
 
-// Routes
 // Needs to be added if a POST or PATCH request is made
-app.use(express.json())
+app.use(express.json());
 
-app.use("/api/workouts", workoutRoutes)
+// Routes
+app.use("/api/workouts", workoutRoutes);
 
-// Listens for requests on port 3000
-app.listen(process.env.PORT, () => {
-  console.log("Listening on port 3000");
-});
+// Connect to database
+mongoose
+  .connect(process.env.MONGO_URI)
+  .then(() => {
+    // Listens for requests on port 3000
+    app.listen(process.env.PORT, () => {
+      console.log("Connected to DB & listening on port 3000");
+    });
+  })
+  .catch((err) => console.log(err));
