@@ -21,4 +21,5 @@ const workoutSchema = new Schema(
 );
 // timestamps give us a time for when the document was created
 
+
 module.exports = mongoose.model("Workout", workoutSchema);
