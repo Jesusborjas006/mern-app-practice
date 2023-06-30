@@ -1,6 +1,7 @@
 require("dotenv").config();
 
 const express = require("express");
+const workoutRoutes = require("./routes/workouts")
 
 // Creates express app
 const app = express();
@@ -11,10 +12,11 @@ app.use((req, res, next) => {
   next();
 });
 
-// Routes``
-app.get("/", (req, res) => {
-  res.json({ mssg: "Welcome to the app" });
-});
+// Routes
+// Needs to be added if a POST or PATCH request is made
+app.use(express.json())
+
+app.use("/api/workouts", workoutRoutes)
 
 // Listens for requests on port 3000
 app.listen(process.env.PORT, () => {
